@@ -28,7 +28,7 @@ export function MonthChart({
         />
         <Tooltip
           cursor={{ fill: "color-mix(in srgb, var(--primary) 8%, transparent)" }}
-          formatter={(v: number) => "₹" + v.toLocaleString("en-IN")}
+          formatter={(v) => "₹" + Number(v).toLocaleString("en-IN")}
           contentStyle={{
             borderRadius: 12,
             border: "1px solid var(--border)",
