@@ -106,10 +106,6 @@ export default function LoginPage() {
             {loading ? "Signing in…" : "Sign in"}
           </button>
         </form>
-
-        <p className="mt-5 text-center text-xs text-muted">
-          Mock accounts · admin/admin123 · user1/user123 · user2/user123 · ceo/ceo123
-        </p>
       </div>
     </main>
   );
