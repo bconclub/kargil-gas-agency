@@ -1,0 +1,125 @@
+@import "tailwindcss";
+
+:root {
+  --background: #eef1f4;
+  --surface: #ffffff;
+  --surface-2: #f7f9fa;
+  --foreground: #101a17;
+  --muted: #64707a;
+  --border: #e6e9ee;
+
+  --primary: #0c8a4d;
+  --primary-dark: #086b3b;
+  --primary-soft: #e7f6ee;
+  --primary-foreground: #ffffff;
+
+  --accent: #e08528;
+  --accent-soft: #fdf1e2;
+  --accent-foreground: #ffffff;
+
+  --success: #12855a;
+  --success-bg: #e7f6ee;
+  --danger: #d3352b;
+  --danger-bg: #fbeaea;
+  --warning: #a9750d;
+  --warning-bg: #fdf3dd;
+
+  --radius: 1rem;
+  --shadow-sm: 0 1px 2px rgba(16, 26, 23, 0.04), 0 1px 3px rgba(16, 26, 23, 0.06);
+  --shadow-md: 0 2px 8px rgba(16, 26, 23, 0.05), 0 8px 24px rgba(16, 26, 23, 0.06);
+  --shadow-lg: 0 12px 32px rgba(16, 26, 23, 0.10);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-primary: var(--primary);
+  --color-primary-dark: var(--primary-dark);
+  --color-primary-soft: var(--primary-soft);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-success: var(--success);
+  --color-success-bg: var(--success-bg);
+  --color-danger: var(--danger);
+  --color-danger-bg: var(--danger-bg);
+  --color-warning: var(--warning);
+  --color-warning-bg: var(--warning-bg);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --shadow-card: var(--shadow-md);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+* {
+  border-color: var(--border);
+}
+
+/* Soft card depth — the app is not flat */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+}
+.card-hover {
+  transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+}
+.card-hover:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+/* Keyboard focus visibility */
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--primary) 22%, transparent);
+}
+
+/* Modernise native date inputs so they don't read as "vintage" */
+input[type="date"] {
+  color: var(--foreground);
+}
+input[type="date"]::-webkit-calendar-picker-indicator {
+  opacity: 0.5;
+  cursor: pointer;
+}
+input[type="date"]::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
+}
+
+/* Thin, unobtrusive scrollbars inside scroll panels */
+.scroll-slim::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.scroll-slim::-webkit-scrollbar-thumb {
+  background: #d3d8df;
+  border-radius: 9999px;
+}
+.scroll-slim::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

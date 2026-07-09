@@ -1,0 +1,89 @@
+// Kargil Gas Agencies — data entry & reporting system
+
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+enum Role {
+  ADMIN
+  USER
+  CEO
+}
+
+model User {
+  id           String   @id @default(cuid())
+  username     String   @unique
+  name         String
+  passwordHash String
+  role         Role
+  createdAt    DateTime @default(now())
+}
+
+// One row per calendar day — the "Daily Accounts Summary" sheet
+model DailyReport {
+  id                String   @id @default(cuid())
+  date              DateTime @unique
+  day               String
+  totalReceipts     Float    @default(0)
+  totalDebits       Float    @default(0)
+  cashToBank        Float    @default(0)
+  notes             String?
+  createdById       String?
+  updatedAt         DateTime @updatedAt
+  createdAt         DateTime @default(now())
+
+  suppliers SupplierEntry[]
+  tieUps    TieUpEntry[]
+  expenses  ExpenseEntry[]
+}
+
+// One row per delivery-boy / supplier — "Supplier-Delivery Ledger" left block
+model SupplierEntry {
+  id              String      @id @default(cuid())
+  dailyReportId   String
+  dailyReport     DailyReport @relation(fields: [dailyReportId], references: [id], onDelete: Cascade)
+  rowType         String      @default("Supplier") // Supplier | Subtotal
+  supplierName    String
+  deliveryQty     Float?
+  qty921          Float?
+  qty942          Float?
+  qty958          Float?
+  online921       Float?
+  online942       Float?
+  online958       Float?
+  officeAmount    Float?
+  cashReceived    Float?
+  gpayReceived    Float?
+  totalReceived   Float?
+  systemTotal     Float?
+  balance         Float?
+}
+
+// One row per NDC / tie-up party — "Supplier-Delivery Ledger" right block (NDC DETAILS)
+model TieUpEntry {
+  id            String      @id @default(cuid())
+  dailyReportId String
+  dailyReport   DailyReport @relation(fields: [dailyReportId], references: [id], onDelete: Cascade)
+  slNo          Int?
+  party         String
+  rate          Float?
+  qty           Float?
+  total         Float?
+  cash          Float?
+  gpay          Float?
+  credit        Float?
+}
+
+// Expense column that rides alongside the NDC block
+model ExpenseEntry {
+  id            String      @id @default(cuid())
+  dailyReportId String
+  dailyReport   DailyReport @relation(fields: [dailyReportId], references: [id], onDelete: Cascade)
+  head          String
+  amount        Float?
+}
