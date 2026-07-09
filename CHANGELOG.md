@@ -1,5 +1,16 @@
 # Changelog
 
+## 2026-07-10 02:35 IST · Add DB health diagnostic + graceful login DB-error
+
+- New temporary GET /api/health/db endpoint (public) reports whether the runtime
+  can reach Postgres and, on failure, the error name/code without leaking the
+  connection string — to diagnose the live login 500 remotely. To be removed once
+  the deploy is confirmed healthy.
+- Login route now catches DB-connection errors and returns a 503 with a clear
+  message instead of a blank 500.
+- Middleware bypass now also allows /api/health.
+
+
 ## 2026-07-10 02:20 IST · Crop stray letter-stroke out of flame marks
 
 - The flame-only logo assets (public/logo-flame.png, public/favicon-flame.png,

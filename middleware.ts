@@ -16,7 +16,11 @@ const SECTION_ROLES: Record<string, Array<"ADMIN" | "USER" | "CEO">> = {
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
-  if (PUBLIC_PATHS.some((p) => pathname.startsWith(p)) || pathname.startsWith("/api/auth")) {
+  if (
+    PUBLIC_PATHS.some((p) => pathname.startsWith(p)) ||
+    pathname.startsWith("/api/auth") ||
+    pathname.startsWith("/api/health")
+  ) {
     return NextResponse.next();
   }
 

@@ -10,7 +10,19 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Username and password are required" }, { status: 400 });
   }
 
-  const user = await prisma.user.findUnique({ where: { username: username.trim().toLowerCase() } });
+  let user;
+  try {
+    user = await prisma.user.findUnique({ where: { username: username.trim().toLowerCase() } });
+  } catch (e) {
+    // DB unreachable (bad/missing DATABASE_URL, pooler down, etc.) — surface a
+    // clear message instead of a blank 500 so the login screen isn't a dead end.
+    console.error("[login] database error:", e);
+    return NextResponse.json(
+      { error: "Service temporarily unavailable — database connection failed." },
+      { status: 503 }
+    );
+  }
+
   if (!user) {
     return NextResponse.json({ error: "Invalid username or password" }, { status: 401 });
   }
