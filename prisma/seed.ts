@@ -1,10 +1,14 @@
 import { PrismaClient } from "../app/generated/prisma/client";
-import { PrismaBetterSqlite3 } from "@prisma/adapter-better-sqlite3";
+import { PrismaPg } from "@prisma/adapter-pg";
 import bcrypt from "bcryptjs";
 import path from "path";
 import fs from "fs";
 
-const adapter = new PrismaBetterSqlite3({ url: path.join(__dirname, "..", "dev.db") });
+const connectionString = process.env.DATABASE_URL;
+if (!connectionString) {
+  throw new Error("DATABASE_URL is not set — add it in .env.local before seeding.");
+}
+const adapter = new PrismaPg({ connectionString });
 const prisma = new PrismaClient({ adapter });
 
 // Real accounts: set ADMIN_PASSWORD / USER1_PASSWORD / USER2_PASSWORD / CEO_PASSWORD
