@@ -1,38 +1,50 @@
 # Build State — kargil-gas-app
-Updated: 2026-07-10T01:30:00+05:30
+Updated: 2026-07-10T02:25:00+05:30
 
 ## PENDING
-1. Dashboard redesign to match LedgerPro-style mockup (hero w/o 3D image, KPI rings row,
-   totals cards w/ deltas, receipts-vs-debits trend, daily cash flow chart, activity
-   calendar, daily ledger table w/ status pills, insights cards). Kargil branding stays.
-2. Sidebar pinned open on wide screens (mockup shows persistent expanded sidebar)
-
-## IN PROGRESS
-- Dashboard redesign (item 1)
+1. After user sets SESSION_SECRET on Vercel: harden lib/session.ts to fail-closed
+   in production (no public fallback secret), then remove temporary
+   /api/health/db diagnostic endpoint + its middleware bypass.
 
 ## BLOCKED
-- (none)
+- SESSION_SECRET not set on Vercel (diagnostic confirms SESSION_SECRET_set:false).
+  App works via hardcoded fallback in session.ts — but that fallback is in the
+  PUBLIC repo, so session cookies are forgeable (auth bypass). User must add
+  SESSION_SECRET (value = .env.local line 43) to Vercel Production + redeploy.
+  Only the user can access the Scan2Kare Vercel account.
+
+## LIVE — WORKING END-TO-END (kargil-gas-agency.vercel.app)
+- DB connected (Vercel DATABASE_URL now correct), login 200 (admin verified),
+  wrong-pw 401, authed dashboard 200 with redesign content. Logo + favicon clean.
+  Only gap: SESSION_SECRET (above).
 
 ## LATER (user-approved)
 - Complete mobile responsiveness pass
-- Investigate broken logo on live Vercel site (cosmetic; PNG committed + serves 200 locally —
-  need live URL to diagnose; may be stale deploy before c9f6eda)
 
 ## SHIPPED (last 12)
-- ✅ Lazy-init Prisma client so build doesn't need DATABASE_URL — Vercel build fix (6e6ea8c)
-- ✅ Removed mock-credential hint from public login page (7e521dc)
-- ✅ Empty commit to trigger redeploy with env vars (19ae783)
-- ✅ Fixed Vercel build type errors + baseline migration committed (c9f6eda)
-- ✅ Supabase Postgres live: schema created (user ran SQL), seeded 4 users + full May
-  ledger (24 reports / 457 supplier / 577 tie-up / 202 expense) — counts verified
-- ✅ Real passwords generated + persisted in .env.local; login verified end-to-end
-  locally against Supabase (admin + ceo → dashboard)
-- ✅ Project relocated to C:\Users\user\Builds\Kargil
-- ✅ Real logo wired in; dashboard ring-gauge KPIs; portable seed fixtures
+- ✅ Cropped stray K-stroke out of flame marks (logo-flame/favicon-flame/icon) —
+  live-verified cropped flame serving (4e06a34)
+- ✅ Middleware skips static assets — live login-page logo fixed, 200 on live (445929a)
+- ✅ Dashboard redesigned to analytics-suite layout: hero, KPI rings, deltas,
+  cash-flow area chart, activity heat calendar, ledger table, insights; pinned
+  sidebar on xl+ (86ec87f)
+- ✅ Lazy-init Prisma so build doesn't need DATABASE_URL — Vercel build fix (6e6ea8c)
+- ✅ Removed mock-credential hint from login page (7e521dc)
+- ✅ Fixed Vercel build type errors + baseline migration (c9f6eda)
+- ✅ Supabase Postgres live: schema created, seeded 4 users + full May ledger
+  (24/457/577/202) — counts verified; login verified locally
+
+## LIVE STATUS (kargil-gas-agency.vercel.app)
+- Build: GREEN. Pages render, logo + favicon clean, auth redirects work,
+  no mock-cred hint. ONLY the DB-backed login 500s (Vercel env).
 
 ## NOTES
 - Local dev: preview server "dev" on port 3000 (session 1924c8bf)
-- Vercel project lives under Scan2Kare account — MCP only sees bconclub team; can't
-  query deploys/logs. User pastes screenshots instead.
-- Vercel envs needed at runtime: DATABASE_URL (+?pgbouncer=true), SESSION_SECRET
-- Credentials shared in chat 2026-07-10; stored in .env.local (gitignored), bcrypt in DB
+- Live URL: https://kargil-gas-agency.vercel.app
+- Vercel under Scan2Kare account — MCP only sees bconclub team; can't query
+  deploys/logs/env. User acts in Vercel dashboard + pastes screenshots.
+- Correct DATABASE_URL (runtime): postgresql://postgres.hzrgyejdltjlsnwxgjhw:
+  Bconclub%23826991@aws-0-ap-southeast-2.pooler.supabase.com:6543/postgres?pgbouncer=true
+- SESSION_SECRET also required at runtime (value in .env.local line 43)
+- Credentials: admin/Kargil-Admin-7b15d8, user1/Kargil-Anand-7e20bf,
+  user2/Kargil-Meera-2eb2c5, ceo/Kargil-Ceo-800b3f (also in .env.local, gitignored)

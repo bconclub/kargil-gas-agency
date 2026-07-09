@@ -47,12 +47,12 @@ export function ActivityCalendar({
           <span key={d} className="py-1">{d}</span>
         ))}
       </div>
-      <div className="mt-1 grid flex-1 grid-cols-7 gap-1">
+      <div className="mt-1 grid grid-cols-7 gap-1">
         {cells.map((d, i) => {
           if (d === null) return <span key={`x${i}`} />;
           const dateKey = keyOf(d);
           const v = receiptsByDay[dateKey];
-          const cls = `flex aspect-square items-center justify-center rounded-lg text-xs font-medium tabular-nums transition ${heatClass(v)}`;
+          const cls = `flex h-7 items-center justify-center rounded-md text-xs font-medium tabular-nums transition ${heatClass(v)}`;
           return v !== undefined ? (
             <Link key={dateKey} href={`/day/${dateKey}`} title={`View ${dateKey}`} className={`${cls} hover:ring-2 hover:ring-primary/40`}>
               {d}

@@ -235,7 +235,7 @@ export function AppShell({
         </nav>
 
         {/* Scroll area */}
-        <main className="scroll-slim mt-2 flex-1 overflow-y-auto px-1 pb-4 sm:mt-3 sm:px-1">{children}</main>
+        <main className="scroll-slim mt-2 flex-1 overflow-y-auto px-1 pb-2 sm:mt-2.5 sm:px-1">{children}</main>
       </div>
     </div>
   );

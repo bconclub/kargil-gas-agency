@@ -63,15 +63,15 @@ export default async function DashboardPage() {
   const avgDebits = ov.totals.debits / days;
   const spikePct = worstDebitDay && avgDebits > 0 ? Math.round((worstDebitDay.totalDebits / avgDebits - 1) * 100) : 0;
 
-  const tableDays = [...ov.reports].reverse().slice(0, 5);
+  const tableDays = [...ov.reports].reverse().slice(0, 4);
   const positive = ov.totals.cashToBank >= 0;
 
   return (
-    <div className="flex flex-col gap-4 pb-2">
+    <div className="flex flex-col gap-3 pb-1 xl:h-full xl:min-h-0">
       {/* Row 1 — hero + KPI stack */}
-      <div className="grid grid-cols-1 gap-4 xl:grid-cols-5">
+      <div className="grid grid-cols-1 gap-3 xl:grid-cols-5">
         {/* Ledger health hero */}
-        <section className="card relative flex flex-col justify-between gap-6 overflow-hidden bg-gradient-to-br from-primary-soft/60 via-surface to-surface p-6 xl:col-span-3">
+        <section className="card relative flex flex-col justify-between gap-3 overflow-hidden bg-gradient-to-br from-primary-soft/60 via-surface to-surface p-5 xl:col-span-3">
           <div className="flex flex-wrap items-start justify-between gap-3">
             <div className="flex items-center gap-3">
               <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-surface shadow-[var(--shadow-sm)]">
@@ -107,15 +107,15 @@ export default async function DashboardPage() {
           </div>
 
           <div>
-            <h1 className="text-lg font-semibold text-foreground">{monthName} Ledger Health</h1>
-            <p className="mt-1 text-4xl font-bold tabular-nums tracking-tight text-primary sm:text-5xl">
+            <h1 className="text-base font-semibold text-foreground">{monthName} Ledger Health</h1>
+            <p className="text-3xl font-bold tabular-nums tracking-tight text-primary sm:text-4xl">
               {formatMoney(ov.totals.cashToBank)}
             </p>
-            <p className="mt-1 text-sm text-muted">Net Cash to Bank</p>
+            <p className="text-xs text-muted">Net Cash to Bank</p>
           </div>
 
           <div
-            className={`flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-medium ${
+            className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium ${
               positive ? "bg-success-bg text-success" : "bg-danger-bg text-danger"
             }`}
           >
@@ -133,8 +133,8 @@ export default async function DashboardPage() {
         </section>
 
         {/* KPI rings + totals */}
-        <div className="flex flex-col gap-4 xl:col-span-2">
-          <section className="card grid grid-cols-3 gap-2 p-5">
+        <div className="flex flex-col gap-3 xl:col-span-2">
+          <section className="card grid grid-cols-3 gap-2 p-4">
             <RingStat
               vertical
               label="Cash Retained"
@@ -161,7 +161,7 @@ export default async function DashboardPage() {
             />
           </section>
 
-          <div className="grid flex-1 grid-cols-1 gap-4 sm:grid-cols-2">
+          <div className="grid flex-1 grid-cols-1 gap-3 sm:grid-cols-2">
             <TotalCard
               label="Total Receipts"
               value={formatMoney(ov.totals.receipts)}
@@ -179,16 +179,16 @@ export default async function DashboardPage() {
       </div>
 
       {/* Row 2 — charts + activity */}
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
-        <section className="card p-5">
-          <h2 className="mb-3 text-sm font-semibold text-foreground">Receipts vs Debits Trend</h2>
-          <MonthChart data={chartData} />
+      <div className="grid grid-cols-1 gap-3 lg:grid-cols-3">
+        <section className="card p-4">
+          <h2 className="mb-2 text-sm font-semibold text-foreground">Receipts vs Debits Trend</h2>
+          <MonthChart data={chartData} height={150} />
         </section>
-        <section className="card p-5">
-          <h2 className="mb-3 text-sm font-semibold text-foreground">Daily Cash Flow (Net)</h2>
-          <CashFlowChart data={flowData} />
+        <section className="card p-4">
+          <h2 className="mb-2 text-sm font-semibold text-foreground">Daily Cash Flow (Net)</h2>
+          <CashFlowChart data={flowData} height={150} />
         </section>
-        <section className="card p-5">
+        <section className="card p-4">
           <ActivityCalendar
             year={year}
             month={month}
@@ -199,8 +199,8 @@ export default async function DashboardPage() {
       </div>
 
       {/* Row 3 — ledger table + insights */}
-      <div className="grid grid-cols-1 gap-4 xl:grid-cols-5">
-        <section className="card flex flex-col p-5 xl:col-span-3">
+      <div className="grid grid-cols-1 gap-3 xl:grid-cols-5">
+        <section className="card flex flex-col p-4 xl:col-span-3">
           <div className="mb-3 flex items-center justify-between">
             <h2 className="text-sm font-semibold text-foreground">Daily Ledger Overview</h2>
             <Link
@@ -228,16 +228,16 @@ export default async function DashboardPage() {
               <tbody className="divide-y divide-border">
                 {tableDays.map((r) => (
                   <tr key={r.dateKey} className="group">
-                    <td className="py-2.5 pr-3">
+                    <td className="py-2 pr-3">
                       <Link href={`/day/${r.dateKey}`} className="font-medium text-foreground group-hover:text-primary">
                         {displayDate(r.dateKey)}
                       </Link>
                     </td>
-                    <td className="py-2.5 pr-3 text-muted">{weekdayOf(r.dateKey)}</td>
-                    <td className="py-2.5 pr-3 text-right tabular-nums text-foreground">{formatMoney(r.totalReceipts)}</td>
-                    <td className="py-2.5 pr-3 text-right tabular-nums text-foreground">{formatMoney(r.totalDebits)}</td>
+                    <td className="py-2 pr-3 text-muted">{weekdayOf(r.dateKey)}</td>
+                    <td className="py-2 pr-3 text-right tabular-nums text-foreground">{formatMoney(r.totalReceipts)}</td>
+                    <td className="py-2 pr-3 text-right tabular-nums text-foreground">{formatMoney(r.totalDebits)}</td>
                     <td
-                      className={`py-2.5 pr-3 text-right font-semibold tabular-nums ${
+                      className={`py-2 pr-3 text-right font-semibold tabular-nums ${
                         r.cashToBank >= 0 ? "text-primary" : "text-danger"
                       }`}
                     >
@@ -275,14 +275,14 @@ export default async function DashboardPage() {
           </Link>
         </section>
 
-        <section className="card flex flex-col gap-3 p-5 xl:col-span-2">
+        <section className="card flex flex-col gap-2 p-4 xl:col-span-2">
           <h2 className="flex items-center gap-2 text-sm font-semibold text-foreground">
             <svg className="h-4 w-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
             Insights
           </h2>
-          <div className="grid flex-1 grid-cols-1 gap-3 sm:grid-cols-2">
+          <div className="grid flex-1 grid-cols-2 gap-2.5">
             <InsightCard
               tone="success"
               icon="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
@@ -390,18 +390,18 @@ function InsightCard({
     tone === "accent" ? "bg-accent-soft text-accent" : tone === "success" ? "bg-success-bg text-success" : "bg-primary-soft text-primary";
   const valueTone = tone === "accent" ? "text-accent" : tone === "success" ? "text-success" : "text-primary";
   return (
-    <div className="flex flex-col gap-1.5 rounded-xl border border-border bg-surface-2 p-4">
-      <div className="flex items-center gap-2">
-        <span className={`flex h-7 w-7 items-center justify-center rounded-full ${iconTone}`}>
-          <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+    <div className="flex flex-col gap-1 rounded-xl border border-border bg-surface-2 p-3">
+      <div className="flex items-center gap-1.5">
+        <span className={`flex h-6 w-6 items-center justify-center rounded-full ${iconTone}`}>
+          <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
             <path strokeLinecap="round" strokeLinejoin="round" d={icon} />
           </svg>
         </span>
-        <p className="text-xs font-semibold text-foreground">{title}</p>
+        <p className="text-[11px] font-semibold text-foreground">{title}</p>
       </div>
-      <p className="text-[11px] text-muted">{subtitle}</p>
-      <p className={`text-lg font-bold tabular-nums ${valueTone}`}>{value}</p>
-      {caption && <p className="text-[11px] text-muted">{caption}</p>}
+      <p className="text-[10px] text-muted">{subtitle}</p>
+      <p className={`text-base font-bold tabular-nums ${valueTone}`}>{value}</p>
+      {caption && <p className="text-[10px] text-muted">{caption}</p>}
     </div>
   );
 }

@@ -1,5 +1,17 @@
 # Changelog
 
+## 2026-07-10 02:55 IST · Compact dashboard to fit one screen
+
+- Reworked the dashboard to fit within one viewport (no page scroll) at standard
+  desktop heights (verified 0 overflow at 1080p): shorter Receipts-vs-Debits and
+  Daily Cash Flow charts (300/260 -> 150), fixed-height activity calendar cells
+  (were aspect-square and ballooning the row), 4 ledger rows instead of 5, denser
+  insight cards, tighter hero and section gaps.
+- Charts now take an optional height prop.
+- User-facing: dashboard reads as one dense screen; only very short laptops
+  (<900px tall) scroll slightly.
+
+
 ## 2026-07-10 02:35 IST · Add DB health diagnostic + graceful login DB-error
 
 - New temporary GET /api/health/db endpoint (public) reports whether the runtime
