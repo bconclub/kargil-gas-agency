@@ -1,5 +1,14 @@
 # Changelog
 
+## 2026-07-10 02:20 IST · Crop stray letter-stroke out of flame marks
+
+- The flame-only logo assets (public/logo-flame.png, public/favicon-flame.png,
+  app/icon.png) each still contained the left stroke of the "K" from the full
+  lockup, rendering as a stray green bar beside the flame on the login page and
+  favicon. Cropped each to a tight flame-only bounding box.
+- User-facing: login logo and browser-tab icon now show only the flame.
+
+
 ## 2026-07-10 02:05 IST · Fix broken logo for signed-out visitors
 
 - Middleware matcher now skips static assets by extension (png/jpg/svg/etc).
