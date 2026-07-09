@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { Role } from "@/lib/session";
 import { LogoLockup, FlameDroplet } from "@/components/Logo";
 
@@ -52,9 +52,18 @@ export function AppShell({
   const pathname = usePathname();
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
-  // Rail by default; opens on hover (no manual toggle).
+  // Rail by default; opens on hover. Pinned open (persistent) on xl+ screens.
   const [open, setOpen] = useState(false);
-  const collapsed = !open;
+  const [pinned, setPinned] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 1280px)");
+    const apply = () => setPinned(mq.matches);
+    apply();
+    mq.addEventListener("change", apply);
+    return () => mq.removeEventListener("change", apply);
+  }, []);
+  const expanded = pinned || open;
+  const collapsed = !expanded;
 
   async function logout() {
     await fetch("/api/auth/logout", { method: "POST" });
@@ -74,12 +83,16 @@ export function AppShell({
     <div className="flex h-screen w-full overflow-hidden bg-background p-0 sm:p-3">
       {/* Sidebar */}
       {/* Sidebar: a rail that reserves 4.75rem and opens to 15rem on hover (overlays, no reflow) */}
-      <aside className="relative hidden w-[4.75rem] shrink-0 sm:block">
+      <aside className={`relative hidden shrink-0 sm:block ${pinned ? "w-60" : "w-[4.75rem]"}`}>
         <div
-          onMouseEnter={() => setOpen(true)}
-          onMouseLeave={() => setOpen(false)}
+          onMouseEnter={() => !pinned && setOpen(true)}
+          onMouseLeave={() => !pinned && setOpen(false)}
           className={`absolute inset-y-0 left-0 flex flex-col overflow-hidden rounded-2xl border border-border bg-surface transition-[width] duration-200 ${
-            open ? "z-30 w-60 shadow-[var(--shadow-lg)]" : "w-[4.75rem] shadow-[var(--shadow-sm)]"
+            pinned
+              ? "w-60 shadow-[var(--shadow-sm)]"
+              : expanded
+                ? "z-30 w-60 shadow-[var(--shadow-lg)]"
+                : "w-[4.75rem] shadow-[var(--shadow-sm)]"
           }`}
         >
           <div className={`flex items-center py-5 ${collapsed ? "justify-center px-2" : "px-4"}`}>

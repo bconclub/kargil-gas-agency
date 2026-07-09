@@ -1,38 +1,38 @@
 # Build State — kargil-gas-app
-Updated: 2026-07-04
+Updated: 2026-07-10T01:30:00+05:30
 
 ## PENDING
+1. Dashboard redesign to match LedgerPro-style mockup (hero w/o 3D image, KPI rings row,
+   totals cards w/ deltas, receipts-vs-debits trend, daily cash flow chart, activity
+   calendar, daily ledger table w/ status pills, insights cards). Kargil branding stays.
+2. Sidebar pinned open on wide screens (mockup shows persistent expanded sidebar)
+
+## IN PROGRESS
+- Dashboard redesign (item 1)
+
+## BLOCKED
 - (none)
 
 ## LATER (user-approved)
 - Complete mobile responsiveness pass
-- Vercel deploy (DB layer needs migrating off local SQLite file first — see NOTES)
+- Investigate broken logo on live Vercel site (cosmetic; PNG committed + serves 200 locally —
+  need live URL to diagnose; may be stale deploy before c9f6eda)
 
 ## SHIPPED (last 12)
-- ✅ Project relocated: C:\Users\user\Builds\Kargil is now the main folder; old
-  Desktop\Gas\kargil-gas-app copy deleted
-- ✅ Real logo wired in (Desktop\Kargil\Logo.png, alpha-flattened via PIL, cropped
-  into logo-full.png / logo-flame.png / favicon), replacing the recreated SVG
-- ✅ Name resolves live from DB on every request (lib/auth.ts) so a rename never
-  needs a re-login; admin is now "Reju"
-- ✅ Dashboard: oversized empty hero card removed, replaced with 3 ring-gauge
-  meters (cash retained %, expense ratio %, days coverage %) + compact net-cash tile
-- ✅ Seed pipeline made portable: prisma/fixtures/may-2026.json (committed) replaces
-  the hard dependency on an absolute-path Excel file; original xlsx parser kept at
-  scripts/seed-from-xlsx.ts for provenance
-- ✅ Real per-account passwords generated (crypto-random, bcrypt-hashed), old mock
-  passwords confirmed rejected; passwords are env-var driven in seed.ts (no
-  plaintext secrets committed)
-- ✅ Git repo initialized, pushed to https://github.com/bconclub/kargil-gas-agency
-  (main, commit b25dfcb) — verified via GitHub API, .env/dev.db correctly gitignored
+- ✅ Lazy-init Prisma client so build doesn't need DATABASE_URL — Vercel build fix (6e6ea8c)
+- ✅ Removed mock-credential hint from public login page (7e521dc)
+- ✅ Empty commit to trigger redeploy with env vars (19ae783)
+- ✅ Fixed Vercel build type errors + baseline migration committed (c9f6eda)
+- ✅ Supabase Postgres live: schema created (user ran SQL), seeded 4 users + full May
+  ledger (24 reports / 457 supplier / 577 tie-up / 202 expense) — counts verified
+- ✅ Real passwords generated + persisted in .env.local; login verified end-to-end
+  locally against Supabase (admin + ceo → dashboard)
+- ✅ Project relocated to C:\Users\user\Builds\Kargil
+- ✅ Real logo wired in; dashboard ring-gauge KPIs; portable seed fixtures
 
 ## NOTES
-- Local dev server: C:\Users\user\Builds\Kargil, `npm run dev -- -p 4100`
-  (launch.json "kargil-gas" config already points here)
-- Vercel deploy is the agreed next step but NOT done yet — this app's DB is a local
-  SQLite file (better-sqlite3), which does not persist on Vercel's serverless
-  filesystem. Needs a hosted DB (Postgres or Turso/libSQL) swap in lib/prisma.ts
-  and prisma/schema.prisma before deploying there. Flag this before attempting
-  a Vercel deploy.
-- Real credentials were shared with the user directly in chat (not committed to
-  the repo, not stored in this file).
+- Local dev: preview server "dev" on port 3000 (session 1924c8bf)
+- Vercel project lives under Scan2Kare account — MCP only sees bconclub team; can't
+  query deploys/logs. User pastes screenshots instead.
+- Vercel envs needed at runtime: DATABASE_URL (+?pgbouncer=true), SESSION_SECRET
+- Credentials shared in chat 2026-07-10; stored in .env.local (gitignored), bcrypt in DB
