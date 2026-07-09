@@ -1,5 +1,15 @@
 # Changelog
 
+## 2026-07-10 02:05 IST · Fix broken logo for signed-out visitors
+
+- Middleware matcher now skips static assets by extension (png/jpg/svg/etc).
+  Previously the auth redirect intercepted /logo-flame.png and /logo-full.png
+  for signed-out visitors, so the login page logo rendered broken on the live
+  site. Auth gating on real pages unchanged (verified /dashboard still
+  redirects without a session).
+- User-facing: login page logo now displays on kargil-gas-agency.vercel.app.
+
+
 ## 2026-07-10 01:45 IST · Dashboard redesign to analytics-suite layout
 
 - Dashboard rebuilt to match the approved mockup: ledger-health hero (period,
