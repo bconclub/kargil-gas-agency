@@ -1,5 +1,16 @@
 # Changelog
 
+## 2026-07-10 03:25 IST · Harden session secret (no public fallback)
+
+- lib/session.ts no longer falls back to a hardcoded, publicly-committed signing
+  key. When SESSION_SECRET is set it is used (stable sessions); if it is missing
+  in production the app now uses a random per-process key so session cookies are
+  never forgeable via a known value (sessions just won't persist across cold
+  starts until SESSION_SECRET is set). Dev keeps a fixed local key.
+- Security: closes the auth-bypass where anyone could forge an admin cookie using
+  the repo's fallback secret.
+
+
 ## 2026-07-10 03:10 IST · Fix floating charts in dashboard
 
 - The two chart cards (Receipts vs Debits, Daily Cash Flow) had a fixed 150px
