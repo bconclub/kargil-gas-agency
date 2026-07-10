@@ -6,6 +6,11 @@ Updated: 2026-07-10T02:25:00+05:30
    in production (no public fallback secret), then remove temporary
    /api/health/db diagnostic endpoint + its middleware bypass.
 
+## SHIPPED (recent, top of list)
+- ✅ Fixed floating charts — chart cards fill height, no dead space, even row (e19a612)
+- ✅ Compacted dashboard to fit one viewport — 0 overflow at 1080p; shorter charts,
+  fixed-height calendar cells, 4 ledger rows, denser insights (4a4ca0a)
+
 ## BLOCKED
 - SESSION_SECRET not set on Vercel (diagnostic confirms SESSION_SECRET_set:false).
   App works via hardcoded fallback in session.ts — but that fallback is in the
