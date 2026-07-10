@@ -1,5 +1,14 @@
 # Changelog
 
+## 2026-07-10 03:10 IST · Fix floating charts in dashboard
+
+- The two chart cards (Receipts vs Debits, Daily Cash Flow) had a fixed 150px
+  chart but stretched to match the taller activity-calendar card, leaving dead
+  white space below each chart (charts appeared to float). Charts now fill their
+  card height (flex-1 wrapper + height=100%), so all three cards read as one even
+  row with no gaps.
+
+
 ## 2026-07-10 02:55 IST · Compact dashboard to fit one screen
 
 - Reworked the dashboard to fit within one viewport (no page scroll) at standard

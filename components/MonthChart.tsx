@@ -7,7 +7,7 @@ export function MonthChart({
   height = 300,
 }: {
   data: { label: string; Receipts: number; Debits: number }[];
-  height?: number;
+  height?: number | `${number}%`;
 }) {
   return (
     <ResponsiveContainer width="100%" height={height}>

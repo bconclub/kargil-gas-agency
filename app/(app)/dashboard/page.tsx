@@ -180,13 +180,17 @@ export default async function DashboardPage() {
 
       {/* Row 2 — charts + activity */}
       <div className="grid grid-cols-1 gap-3 lg:grid-cols-3">
-        <section className="card p-4">
+        <section className="card flex flex-col p-4">
           <h2 className="mb-2 text-sm font-semibold text-foreground">Receipts vs Debits Trend</h2>
-          <MonthChart data={chartData} height={150} />
+          <div className="min-h-[150px] flex-1">
+            <MonthChart data={chartData} height="100%" />
+          </div>
         </section>
-        <section className="card p-4">
+        <section className="card flex flex-col p-4">
           <h2 className="mb-2 text-sm font-semibold text-foreground">Daily Cash Flow (Net)</h2>
-          <CashFlowChart data={flowData} height={150} />
+          <div className="min-h-[150px] flex-1">
+            <CashFlowChart data={flowData} height="100%" />
+          </div>
         </section>
         <section className="card p-4">
           <ActivityCalendar

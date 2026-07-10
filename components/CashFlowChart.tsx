@@ -4,7 +4,7 @@ import { Area, AreaChart, CartesianGrid, ReferenceLine, ResponsiveContainer, Too
 
 // Daily net cash (receipts − debits). Sequential single-hue area; dips below zero
 // are visually anchored by the reference line rather than a second color.
-export function CashFlowChart({ data, height = 260 }: { data: { label: string; Net: number }[]; height?: number }) {
+export function CashFlowChart({ data, height = 260 }: { data: { label: string; Net: number }[]; height?: number | `${number}%` }) {
   return (
     <ResponsiveContainer width="100%" height={height}>
       <AreaChart data={data} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
